@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy AI - Your Plan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --panel: rgba(16, 20, 30, 0.9);
+            --line: rgba(255, 255, 255, 0.16);
+            --text: #f2f5fc;
+            --muted: #b8c3dd;
+            --primary: #2f78ff;
+            --primary-hover: #1858cd;
+            --ok: #30c57a;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Roboto", sans-serif;
+            color: var(--text);
+            background:
+                linear-gradient(180deg, rgba(9, 12, 20, 0.5), rgba(7, 10, 15, 0.85)),
+                url("/static/images/gym-bg.jpg") center/cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .container {
+            width: 100%;
+            max-width: 980px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        }
+        h1 {
+            margin: 0 0 16px;
+            font-size: 1.6rem;
+            font-weight: 900;
+        }
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .chip {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .panel h2 {
+            margin: 0 0 8px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            font-size: 0.92rem;
+            color: #eaf0ff;
+        }
+        .tip {
+            margin: 0;
+            color: #d7e6ff;
+            line-height: 1.5;
+        }
+        .ok {
+            margin: 0 0 10px;
+            color: var(--ok);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .feedback {
+            display: grid;
+            gap: 8px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 110px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 10px;
+            resize: vertical;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.06);
+            font-family: "Roboto", sans-serif;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fff;
+            background: var(--primary);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+        .btn:hover {
+            background: var(--primary-hover);
+        }
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.18);
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.28);
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>7-Day AI Workout Plan</h1>
+
+        <div class="meta">
+            <span class="chip">User: {{ username }}</span>
+            <span class="chip">User ID: {{ user_id }}</span>
+            <span class="chip">Age: {{ age }}</span>
+            <span class="chip">Weight: {{ weight }} kg</span>
+            <span class="chip">Goal: {{ goal }}</span>
+            <span class="chip">Intensity: {{ intensity }}</span>
+        </div>
+
+        <section class="panel">
+            <h2>Original Workout Plan</h2>
+            <pre>{{ workout_plan }}</pre>
+        </section>
+
+        {% if updated_plan %}
+        <section class="panel">
+            <h2>Updated Workout Plan</h2>
+            <pre>{{ updated_plan }}</pre>
+        </section>
+        {% endif %}
+
+        <section class="panel">
+            <h2>Nutrition Tip</h2>
+            <p class="tip">{{ nutrition_tip }}</p>
+        </section>
+
+        <section class="panel">
+            <h2>Submit Feedback</h2>
+            {% if feedback_message %}
+            <p class="ok">{{ feedback_message }}</p>
+            {% endif %}
+            <form class="feedback" action="/submit-feedback" method="post">
+                <input type="hidden" name="user_id" value="{{ user_id }}">
+                <label for="feedback">Tell us what to improve in your plan:</label>
+                <textarea id="feedback" name="feedback" placeholder="Example: reduce leg volume and add beginner-friendly cardio..." required></textarea>
+                <button class="btn" type="submit">Update Plan</button>
+            </form>
+        </section>
+
+        <div class="actions">
+            <a class="btn secondary" href="/">Back to Home</a>
+            <a class="btn" href="/view-all-users">View All Users</a>
+        </div>
+    </main>
+</body>
+</html>

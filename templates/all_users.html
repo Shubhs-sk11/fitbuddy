@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy AI - Admin Users</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1523;
+            --panel: #141d31;
+            --line: rgba(255, 255, 255, 0.14);
+            --text: #edf2ff;
+            --muted: #afbddf;
+            --primary: #2f78ff;
+            --danger: #d14545;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0b111d 0%, #151f34 100%);
+            font-family: "Roboto", sans-serif;
+            color: var(--text);
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        h1 {
+            margin: 0 0 6px;
+            font-size: 1.5rem;
+        }
+        .sub {
+            margin: 0 0 14px;
+            color: var(--muted);
+        }
+        .actions {
+            margin-bottom: 12px;
+        }
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            color: #fff;
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+        th, td {
+            border-bottom: 1px solid var(--line);
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 0.9rem;
+        }
+        th {
+            font-size: 0.82rem;
+            color: var(--muted);
+            letter-spacing: 0.3px;
+        }
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-size: 0.82rem;
+            line-height: 1.45;
+            color: #e2eaff;
+            max-width: 320px;
+        }
+        .delete-btn {
+            background: var(--danger);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-weight: 700;
+            padding: 7px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>All Users Dashboard</h1>
+        <p class="sub">Review user details, original plans, and updated plans.</p>
+        <div class="actions">
+            <a class="btn" href="/">Back to Home</a>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Weight</th>
+                        <th>Goal</th>
+                        <th>Intensity</th>
+                        <th>Original Plan</th>
+                        <th>Updated Plan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.age }}</td>
+                        <td>{{ user.weight }}</td>
+                        <td>{{ user.goal }}</td>
+                        <td>{{ user.intensity }}</td>
+                        <td><pre>{{ user.original_plan }}</pre></td>
+                        <td><pre>{{ user.updated_plan }}</pre></td>
+                        <td>
+                            <form action="/delete-user/{{ user.id }}" method="post">
+                                <button class="delete-btn" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
